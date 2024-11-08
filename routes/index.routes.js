@@ -42,7 +42,7 @@ indexRoutes.delete('/deleteCategory/:id', auth(['Super Admin', 'Chef']), deleteC
 // Dish Routes
 
 indexRoutes.post('/createDish', auth(['Super Admin', 'Chef']), upload.single('dishImage'), createDish)
-indexRoutes.get('/allDish', auth(['Super Admin', 'Chef', 'Waiter']), getAllDish);
+indexRoutes.get('/allDish', auth(['Super Admin', 'Chef', 'Waiter', 'Accountant']), getAllDish);
 indexRoutes.get('/getDish/:id', auth(['Super Admin', 'Chef', 'Waiter']), getDishById);
 indexRoutes.put('/updateDish/:id', auth(['Super Admin', 'Chef']), upload.single('dishImage'), updateDishById);
 indexRoutes.delete('/deleteDish/:id', auth(['Super Admin', 'Chef']), deleteDishById);
@@ -59,7 +59,7 @@ indexRoutes.delete('/deleteVariant/:id', auth(['Super Admin', 'Chef']), deleteVa
 
 indexRoutes.post('/createTable', auth(['Super Admin', 'Waiter']), createTable);
 indexRoutes.get('/allTables', auth(['Super Admin', 'Waiter']), getAllTables);
-indexRoutes.get('/getTable/:id', auth(['Super Admin', 'Waiter']), getTableById);
+indexRoutes.get('/getTable/:id', auth(['Super Admin', 'Waiter', 'Accountant']), getTableById);
 indexRoutes.put('/updateTable/:id', auth(['Super Admin']), updateTableById);
 indexRoutes.delete('/deleteTable/:id', auth(['Super Admin']), deleteTableById);
 

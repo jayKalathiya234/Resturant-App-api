@@ -16,11 +16,11 @@ const orderSchema = mongoose.Schema({
             ref: 'dish',
             require: true
         },
-        variant: {
+        variant: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'variant',
             require: true
-        },
+        }],
         quantity: {
             type: Number,
             require: true
