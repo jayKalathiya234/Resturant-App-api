@@ -189,7 +189,7 @@ exports.getOrderById = async (req, res) => {
     try {
         let id = req.params.id
 
-        let getOrderId = await order.findById(id)
+        let getOrderId = await order.findById(id).populate('table', 'tableName').populate('items.dish').populate('items.variant')
 
         if (!getOrderId) {
             return res.status(404).json({ status: 404, success: false, message: "Order Not Found" })

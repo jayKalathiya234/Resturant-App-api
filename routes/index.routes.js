@@ -67,7 +67,7 @@ indexRoutes.delete('/deleteTable/:id', auth(['Super Admin']), deleteTableById);
 
 indexRoutes.post('/createOrder', auth(['Super Admin', 'Waiter']), createOrder)
 indexRoutes.get('/allOrders', auth(['Super Admin', 'Chef', 'Waiter', 'Accountant']), getAllOrders)
-indexRoutes.get('/getOrder/:id', auth(['Super Admin', 'Chef', 'Waiter']), getOrderById)
+indexRoutes.get('/getOrder/:id', auth(['Super Admin', 'Chef', 'Waiter', 'Accountant']), getOrderById)
 indexRoutes.put('/updateOrderStatus/:id', auth(['Super Admin', 'Chef', 'Waiter']), updateOrderStatusById);
 indexRoutes.put('/updateOrder/:id', auth(['Super Admin', 'Waiter']), updateOrderById);
 indexRoutes.delete('/deleteOrder/:id', auth(['Super Admin', 'Waiter']), deleteOrderById);
@@ -79,7 +79,7 @@ indexRoutes.put('/updateOrderItemQty/:id', auth(['Super Admin', 'Waiter']), upda
 indexRoutes.post('/generateBill', auth(['Super Admin', 'Accountant', 'Waiter']), generateBill);
 indexRoutes.get('/allGenerateBill', auth(['Super Admin', 'Accountant', 'Waiter']), getAllGenerateBills);
 indexRoutes.get('/getGenerateBill/:id', auth(['Super Admin', 'Accountant', 'Waiter']), getGenerateBillsById)
-indexRoutes.get('/billPayment/:id', auth(['Super Admin', 'Chef']), generateBillPayment)
+indexRoutes.get('/billPayment/:id', auth(['Super Admin', 'Accountant']), generateBillPayment)
 
 //dashBoard
 

@@ -1,5 +1,6 @@
 const billPayment = require('../models/billPayment.models');
 const Table = require('../models/table.models')
+const order = require('../models/order.models');
 
 exports.generateBill = async (req, res) => {
     try {
@@ -12,6 +13,7 @@ exports.generateBill = async (req, res) => {
         }
 
         let checkTable = await Table.findById(table)
+        let checkOrder = await order.findById(orderId)
 
         if (!checkTable) {
             return res.status(404).json({ status: 404, success: true, message: "Table Not Found" })
@@ -23,8 +25,10 @@ exports.generateBill = async (req, res) => {
         })
 
         checkTable.status = "Available";
+        checkOrder.status = "Completed";
 
         await checkTable.save();
+        await checkOrder.save();
 
         return res.status(201).json({ status: 201, success: true, message: "BillPayment Create SuccessFully...", data: existOrder });
 
@@ -71,10 +75,45 @@ exports.getGenerateBillsById = async (req, res) => {
     try {
         let id = req.params.id
 
-        let getGenerateBillsId = await billPayment.findById(id)
+        let getGenerateBillsId = await billPayment.findById(id).populate({
+            path: 'orderId',
+            populate: [
+                {
+                    path: 'items.dish',
+                    model: 'dish'
+                },
+                [{
+                    path: 'items.variant',
+                    model: 'variant'
+                }]
+            ]
+        });
 
         if (!getGenerateBillsId) {
             return res.status(404).json({ status: 404, success: false, message: "Generate Bill Not Found" })
+        }
+
+        if (getGenerateBillsId.orderId && getGenerateBillsId.orderId.items) {
+            let totalOrderPrice = 0;
+
+            getGenerateBillsId.orderId.items = getGenerateBillsId.orderId.items.map(item => {
+                let basePrice = item.dish ? item.dish.price : 0;
+                let variantTotal = 0;
+
+                if (item.variant && Array.isArray(item.variant)) {
+                    variantTotal = item.variant.reduce((sum, variant) => {
+                        return sum + (variant?.price || 0);
+                    }, 0);
+                }
+
+                const baseSubtotal = basePrice * item.quantity;
+                item.subTotal = baseSubtotal + variantTotal;
+
+                totalOrderPrice += item.subTotal;
+
+                return item;
+            });
+
         }
 
         return res.status(200).json({ status: 200, success: true, message: "Generate Bill Found SuccessFully...", data: getGenerateBillsId });

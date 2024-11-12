@@ -27,14 +27,24 @@ const orderSchema = mongoose.Schema({
         },
         status: {
             type: String,
-            enum: ['Pending', 'Preparing', 'Served', 'Canceled'],
+            enum: ['Pending', 'Preparing', 'Served', 'Cancelled', 'Completed'],
             default: 'Pending'
         },
         addInstruction: {
             type: String,
             require: true
+        },
+        subTotal: {
+            type: Number,
+            default: 0
         }
     }],
+    status: {
+        type: String,
+        enum: ['Pending', 'Completed'],
+        default: "Pending",
+        require: true
+    },
     totalPrice: {
         type: Number,
         require: true,
