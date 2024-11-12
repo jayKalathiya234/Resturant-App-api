@@ -138,7 +138,7 @@ exports.generateBillPayment = async (req, res) => {
 
         await getGenerateBillId.save();
 
-        return res.status(200).json({ status: 200, success: false, message: "Payment SuccessFully", data: getGenerateBillId });
+        return res.status(200).json({ status: 200, success: true, message: "Payment SuccessFully", data: getGenerateBillId });
 
     } catch (error) {
         console.log(error)
